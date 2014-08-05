@@ -1,4 +1,4 @@
-package com.inmobi.grill.server.ui;
+package com.inmobi.grill.server;
 
 /*
  * #%L
@@ -20,19 +20,29 @@ package com.inmobi.grill.server.ui;
  * #L%
  */
 
-import com.inmobi.grill.server.GrillApplicationListener;
+import com.inmobi.grill.server.query.QueryServiceResource;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
+import com.inmobi.grill.server.query.QueryServiceUIResource;
+import com.inmobi.grill.server.session.SessionUIResource;
+import com.inmobi.grill.server.metastore.MetastoreUIResource;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
+
 import java.util.HashSet;
 import java.util.Set;
 
-@ApplicationPath("/")
+@ApplicationPath("/ui")
 public class UIApp extends Application {
 
   public Set<Class<?>> getClasses() {
     final Set<Class<?>> classes = new HashSet<Class<?>>();
     classes.add(StaticFileResource.class);
+    classes.add(QueryServiceUIResource.class);
+    classes.add(SessionUIResource.class);
+    classes.add(MetastoreUIResource.class);
+    classes.add(MultiPartFeature.class);
+    classes.add(AuthenticationFilter.class);
     classes.add(GrillApplicationListener.class);
     return classes;
   }
