@@ -1,4 +1,4 @@
-package com.inmobi.grill.server.ui;
+package com.inmobi.grill.server;
 
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
