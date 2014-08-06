@@ -114,6 +114,7 @@ public class MetastoreUIResource {
         GrillSessionHandle sessionHandle = SessionUIResource.openSessions.get(publicId);
         checkSessionHandle(sessionHandle);
         JSONArray tableList = new JSONArray();
+
         List<String> cubes;
         try{
             cubes = getSvc().getAllCubeNames(sessionHandle);
@@ -121,15 +122,18 @@ public class MetastoreUIResource {
         catch(GrillException e){
             throw new WebApplicationException(e);
         }
-        for(String cube : cubes)
-        {
-            try {
-                tableList.put(new JSONObject().put("name", cube).put("type", "cube"));
+
+        if(cubes != null)
+            for(String cube : cubes)
+            {
+                try {
+                    tableList.put(new JSONObject().put("name", cube).put("type", "cube"));
+                }
+                catch(JSONException j){
+                    LOG.error(j);
+                }
             }
-            catch(JSONException j){
-                LOG.error(j);
-            }
-        }
+
         List<String> dimTables;
         try{
             dimTables = getSvc().getAllDimTableNames(sessionHandle);
@@ -137,15 +141,17 @@ public class MetastoreUIResource {
         catch(GrillException e){
             throw new WebApplicationException(e);
         }
-        for(String dimTable : dimTables)
-        {
-            try {
-                tableList.put(new JSONObject().put("name", dimTable).put("type", "dimtable"));
+
+        if(dimTables != null)
+            for(String dimTable : dimTables)
+            {
+                try {
+                    tableList.put(new JSONObject().put("name", dimTable).put("type", "dimtable"));
+                }
+                catch(JSONException j){
+                    LOG.error(j);
+                }
             }
-            catch(JSONException j){
-                LOG.error(j);
-            }
-        }
         /*List<String> storageTables;
         try{
             storageTables = getSvc().getAllStorageNames(sessionHandle);
